@@ -3,6 +3,7 @@ import {View, Text, SafeAreaView, Button} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {addTodo} from 'actions/todo';
 import {Todo} from 'containers';
+import {BarsIcon} from 'components/icons';
 
 const mapDispatchToProps = {
   addTodo,
@@ -24,9 +25,10 @@ const Home = (props: Props): ReactElement => {
   return (
     <SafeAreaView>
       <View>
-        <Text style={{fontFamily: 'Montserrat'}}>Hello world</Text>
+        <Text style={{fontFamily: 'Montserrat-Regular'}}>Hello world</Text>
         <Todo />
         <Button onPress={onAdd} title="Add"></Button>
+        <BarsIcon />
       </View>
     </SafeAreaView>
   );
