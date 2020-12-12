@@ -24,7 +24,7 @@ const Home = (props: Props): ReactElement => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Hello world</Text>
+        <Text style={{fontFamily: 'Montserrat'}}>Hello world</Text>
         <Todo />
         <Button onPress={onAdd} title="Add"></Button>
       </View>
