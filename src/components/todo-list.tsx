@@ -13,7 +13,9 @@ interface Props {
 export const TodoList = (props: Props): ReactElement => {
   const {data} = props;
   const renderItem = useCallback(
-    ({item}: {item: ITodoItem}): ReactElement => <TodoItem data={item} />,
+    ({item}: {item: ITodoItem}): ReactElement => (
+      <TodoItem key={`item.id`} data={item} />
+    ),
     [],
   );
   const emptyComponent = (
@@ -33,6 +35,8 @@ export const TodoList = (props: Props): ReactElement => {
       renderItem={renderItem}
       style={styles.container}
       ListEmptyComponent={emptyComponent}
+      extraData={data}
+      keyExtractor={(item) => item.id.toString()}
     />
   );
 };

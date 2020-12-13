@@ -4,11 +4,7 @@ import {DoneList} from 'containers/todo-container';
 
 interface Props {}
 export function DoneTab(props: Props): ReactElement {
-  return (
-    <View style={styles.container}>
-      <DoneList />
-    </View>
-  );
+  return <View style={styles.container}>{/* <DoneList /> */}</View>;
 }
 
 const styles = StyleSheet.create({

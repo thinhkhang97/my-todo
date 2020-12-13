@@ -13,7 +13,9 @@ interface Props {
 export const DoneList = (props: Props): ReactElement => {
   const {data} = props;
   const renderItem = useCallback(
-    ({item}: {item: ITodoItem}): ReactElement => <TodoItem data={item} />,
+    ({item}: {item: ITodoItem}): ReactElement => (
+      <TodoItem key={item.id} data={item} />
+    ),
     [],
   );
   const emptyComponent = (
