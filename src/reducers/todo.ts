@@ -1,7 +1,7 @@
 import {TodoAction} from 'actions/todo';
-import {TodoItem, TodoList, TodoPriority} from 'types';
+import {TodoItem, TodoPriority} from 'types/states';
 
-const defaultState = {};
+const defaultState: TodoItem[] = [];
 
 let id = 0;
 
@@ -16,16 +16,13 @@ function createNewTodo(
 }
 
 export function TodoReducer(
-  state: TodoList = defaultState,
+  state: TodoItem[] = defaultState,
   action: TodoAction,
-): TodoList {
+): TodoItem[] {
   switch (action.type) {
     case 'ADD_TODO':
       id++;
-      return {
-        ...state,
-        [id]: createNewTodo(id, action.payload.title),
-      };
+      return [...state, createNewTodo(id, action.payload.title)];
     default:
       return state;
   }

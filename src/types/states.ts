@@ -14,10 +14,6 @@ export interface TodoItem {
   createdDate: Date;
 }
 
-export interface TodoList {
-  [key: string]: TodoItem;
-}
-
 export interface Store {
-  todoList: TodoList;
+  todoList: TodoItem[];
 }

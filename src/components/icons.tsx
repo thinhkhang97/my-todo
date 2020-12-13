@@ -1,6 +1,10 @@
 import React, {ReactElement} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, IconDefinition} from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  IconDefinition,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface BaseIconProps {
   size?: number;
@@ -29,4 +33,8 @@ export function Icon(props: IconProps): ReactElement {
 
 export function BarsIcon(props: BaseIconProps): ReactElement {
   return <Icon {...props} icon={faBars} />;
+}
+
+export function PlusIcon(props: BaseIconProps): ReactElement {
+  return <Icon {...props} icon={faPlus} />;
 }

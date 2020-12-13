@@ -1,3 +1,4 @@
-import Todo from './TodoContainer';
+import TodoList from './todo-list-container';
+import DoneList from './done-list-container';
 
-export {Todo};
+export {TodoList, DoneList};

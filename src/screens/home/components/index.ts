@@ -1,3 +1,5 @@
-import {Header} from './Header';
+import {Header} from './header';
+import {DoneTab} from './done-tab';
+import {TodoTab} from './todo-tab';
 
-export {Header};
+export {Header, TodoTab, DoneTab};

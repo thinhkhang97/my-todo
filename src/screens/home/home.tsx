@@ -8,45 +8,27 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {connect, ConnectedProps} from 'react-redux';
 import {TabView, SceneMap} from 'react-native-tab-view';
 
-import {addTodo} from 'actions/todo';
 import {Colors} from 'assets/color';
-import {Header} from './components';
+import {Header, TodoTab, DoneTab} from './components';
 import {CharacterStyles} from 'assets/character-styles';
 import {Fonts} from 'assets/fonts';
 
-const mapDispatchToProps = {
-  addTodo,
-};
-
-const connector = connect(null, mapDispatchToProps);
-
-type Props = {} & ConnectedProps<typeof connector>;
-
-const FirstRoute = () => (
-  <View style={[styles.scene, {backgroundColor: Colors.white}]} />
-);
-
-const SecondRoute = () => (
-  <View style={[styles.scene, {backgroundColor: '#673ab7'}]} />
-);
+type Props = {};
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-const Home = (props: Props): ReactElement => {
+export default function Home(props: Props): ReactElement {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},
   ]);
-
   const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
+    first: TodoTab,
+    second: DoneTab,
   });
-
   const renderTabbar = () => {
     return (
       <View style={styles.tabbarContainer}>
@@ -76,8 +58,8 @@ const Home = (props: Props): ReactElement => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor={Colors.blue1} />
-      <SafeAreaView style={{backgroundColor: Colors.blue1, flex: 1}}>
-        <View style={{flex: 1, backgroundColor: Colors.white}}>
+      <SafeAreaView style={styles.safeView}>
+        <View style={styles.contentContainer}>
           <Header title="My Todo" />
           <TabView
             navigationState={{index, routes}}
@@ -90,11 +72,19 @@ const Home = (props: Props): ReactElement => {
       </SafeAreaView>
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
+  },
+  safeView: {
+    flex: 1,
+    backgroundColor: Colors.blue1,
+  },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: Colors.white,
   },
   tabbarContainer: {
     backgroundColor: Colors.blue1,
@@ -111,5 +101,3 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
 });
-
-export default connector(Home);
