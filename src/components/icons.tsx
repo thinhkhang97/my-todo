@@ -6,6 +6,9 @@ import {
   faPlus,
   faEllipsisV,
   faTimes,
+  faPen,
+  faTrash,
+  faUndo,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface BaseIconProps {
@@ -47,4 +50,16 @@ export function EllipsisVIcon(props: BaseIconProps): ReactElement {
 
 export function TimesIcon(props: BaseIconProps): ReactElement {
   return <Icon {...props} icon={faTimes} />;
+}
+
+export function PenIcon(props: BaseIconProps): ReactElement {
+  return <Icon {...props} icon={faPen} />;
+}
+
+export function TrashIcon(props: BaseIconProps): ReactElement {
+  return <Icon {...props} icon={faTrash} />;
+}
+
+export function UndoIcon(props: BaseIconProps): ReactElement {
+  return <Icon {...props} icon={faUndo} />;
 }

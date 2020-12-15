@@ -1,12 +1,14 @@
+import React, {ReactElement, useState} from 'react';
+
 import {CharacterStyles} from 'assets/character-styles';
 import {Colors} from 'assets/color';
-import React, {ReactElement} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {TodoItem as ITodoItem} from 'types/states';
 import {HIT_SLOP} from 'utils/system';
 import {getDateTimeString} from 'utils/time';
 import {EllipsisVIcon} from './icons';
 import {PriorityBadge} from './priority-badge';
+import {TodoItemModal} from './todo-item-modal';
 
 interface Props {
   data: ITodoItem;
@@ -15,34 +17,44 @@ interface Props {
 
 export const TodoItem = (props: Props): ReactElement => {
   const {data, onDone} = props;
+  const [showModal, setShowModal] = useState(false);
   return (
-    <TouchableOpacity onPress={(): void => onDone && onDone(data.id)}>
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <View style={styles.rightTopContainer}>
+    <React.Fragment>
+      <TouchableOpacity onPress={(): void => onDone && onDone(data.id)}>
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <View style={styles.rightTopContainer}>
+              <Text
+                style={[
+                  CharacterStyles.title,
+                  styles.title,
+                  data.done && {color: Colors.gray2},
+                ]}>
+                {data.title}
+              </Text>
+              <PriorityBadge priority={data.priority} />
+            </View>
+            <TouchableOpacity
+              hitSlop={HIT_SLOP}
+              onPress={(): void => setShowModal(true)}>
+              <EllipsisVIcon size={10} color={Colors.gray3} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.footContainer}>
             <Text
               style={[
-                CharacterStyles.title,
-                styles.title,
-                data.done && {color: Colors.gray2},
-              ]}>
-              {data.title}
-            </Text>
-            <PriorityBadge priority={data.priority} />
+                CharacterStyles.smallItalicText,
+                styles.dueTo,
+              ]}>{`Due to: ${getDateTimeString(data.dueTo)}`}</Text>
           </View>
-          <TouchableOpacity hitSlop={HIT_SLOP}>
-            <EllipsisVIcon size={10} color={Colors.gray3} />
-          </TouchableOpacity>
         </View>
-        <View style={styles.footContainer}>
-          <Text
-            style={[
-              CharacterStyles.smallItalicText,
-              styles.dueTo,
-            ]}>{`Due to: ${getDateTimeString(data.dueTo)}`}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+      <TodoItemModal
+        visible={showModal}
+        onClose={(): void => setShowModal(false)}
+        done={data.done}
+      />
+    </React.Fragment>
   );
 };
 
