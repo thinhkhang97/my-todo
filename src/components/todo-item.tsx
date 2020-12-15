@@ -10,31 +10,39 @@ import {PriorityBadge} from './priority-badge';
 
 interface Props {
   data: ITodoItem;
+  onDone?: (id: number) => void;
 }
 
 export const TodoItem = (props: Props): ReactElement => {
-  const {data} = props;
+  const {data, onDone} = props;
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <View style={styles.rightTopContainer}>
-          <Text style={[CharacterStyles.title, styles.title]}>
-            {data.title}
-          </Text>
-          <PriorityBadge priority={data.priority} />
+    <TouchableOpacity onPress={(): void => onDone && onDone(data.id)}>
+      <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <View style={styles.rightTopContainer}>
+            <Text
+              style={[
+                CharacterStyles.title,
+                styles.title,
+                data.done && {color: Colors.gray2},
+              ]}>
+              {data.title}
+            </Text>
+            <PriorityBadge priority={data.priority} />
+          </View>
+          <TouchableOpacity hitSlop={HIT_SLOP}>
+            <EllipsisVIcon size={10} color={Colors.gray3} />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity hitSlop={HIT_SLOP}>
-          <EllipsisVIcon size={10} color={Colors.gray3} />
-        </TouchableOpacity>
+        <View style={styles.footContainer}>
+          <Text
+            style={[
+              CharacterStyles.smallItalicText,
+              styles.dueTo,
+            ]}>{`Due to: ${getDateTimeString(data.dueTo)}`}</Text>
+        </View>
       </View>
-      <View style={styles.footContainer}>
-        <Text
-          style={[
-            CharacterStyles.smallItalicText,
-            styles.dueTo,
-          ]}>{`Due to: ${getDateTimeString(data.dueTo)}`}</Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

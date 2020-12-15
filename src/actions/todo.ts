@@ -2,12 +2,13 @@ import {TodoPriority} from 'types/states';
 import {BaseAction} from './types';
 
 export const ADD_TODO = 'ADD_TODO';
+export const DONE_TODO = 'DONE_TODO';
 
 interface BaseTodoAction extends BaseAction {
-  type: 'ADD_TODO';
+  type: 'ADD_TODO' | 'DONE_TODO';
 }
 
-interface AddTodo extends BaseTodoAction {
+export interface AddTodo extends BaseTodoAction {
   payload: {
     title: string;
     priority?: TodoPriority;
@@ -30,4 +31,19 @@ export function addTodo(
   };
 }
 
-export type TodoAction = AddTodo;
+export interface DoneTodoItem extends BaseTodoAction {
+  payload: {
+    id: number;
+  };
+}
+
+export function doneTodo(id: number): DoneTodoItem {
+  return {
+    type: DONE_TODO,
+    payload: {
+      id,
+    },
+  };
+}
+
+export type TodoAction = AddTodo | DoneTodoItem;

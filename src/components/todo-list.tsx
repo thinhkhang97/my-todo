@@ -8,15 +8,20 @@ import {TodoItem} from './todo-item';
 
 interface Props {
   data: ITodoItem[];
+  onDone?: (id: number) => void;
 }
 
 export const TodoList = (props: Props): ReactElement => {
-  const {data} = props;
+  const {data, onDone} = props;
   const renderItem = useCallback(
     ({item}: {item: ITodoItem}): ReactElement => (
-      <TodoItem key={`item.id`} data={item} />
+      <TodoItem
+        key={`item.id`}
+        data={item}
+        onDone={(id: number): void => onDone && onDone(id)}
+      />
     ),
-    [],
+    [data],
   );
   const emptyComponent = (
     <View style={styles.emptyContainer}>
