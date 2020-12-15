@@ -19,6 +19,7 @@ import {TimesIcon} from './icons';
 import {PrioritySelection} from './priority-selection';
 import {TextInput} from './text-input';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {getDateTimeString} from 'utils/time';
 
 export interface CreateTodoModalProps {
   visible: boolean;
@@ -32,7 +33,10 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
   const [priority, setPriority] = useState('medium' as TodoPriority);
   const [dueTo, setDueTo] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const handleConfirm = useCallback(() => setShowDatePicker(false), []);
+  const handleConfirm = useCallback((date: Date) => {
+    setShowDatePicker(false);
+    setDueTo(date);
+  }, []);
   const handleCancel = useCallback(() => setShowDatePicker(false), []);
 
   return (
@@ -80,8 +84,8 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
             </Text>
             <TouchableWithoutFeedback onPress={() => setShowDatePicker(true)}>
               <View style={styles.datePickerContainer}>
-                <Text style={[CharacterStyles.text]}>
-                  {dueTo.toTimeString()}
+                <Text style={[CharacterStyles.text, styles.dueToText]}>
+                  {getDateTimeString(dueTo)}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
@@ -144,5 +148,14 @@ const styles = StyleSheet.create({
     color: Colors.gray3,
   },
   closeIcon: {},
-  datePickerContainer: {},
+  datePickerContainer: {
+    flexDirection: 'row',
+  },
+  dueToText: {
+    borderRadius: 12,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
 });
