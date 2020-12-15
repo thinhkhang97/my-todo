@@ -4,6 +4,8 @@ import {
   faBars,
   IconDefinition,
   faPlus,
+  faEllipsisV,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface BaseIconProps {
@@ -37,4 +39,12 @@ export function BarsIcon(props: BaseIconProps): ReactElement {
 
 export function PlusIcon(props: BaseIconProps): ReactElement {
   return <Icon {...props} icon={faPlus} />;
+}
+
+export function EllipsisVIcon(props: BaseIconProps): ReactElement {
+  return <Icon {...props} icon={faEllipsisV} />;
+}
+
+export function TimesIcon(props: BaseIconProps): ReactElement {
+  return <Icon {...props} icon={faTimes} />;
 }

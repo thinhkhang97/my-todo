@@ -27,6 +27,7 @@ module.exports = {
           store: './src/store',
           types: './src/types',
           utils: './src/utils',
+          selectors: './src/selectors',
         },
       },
     ],

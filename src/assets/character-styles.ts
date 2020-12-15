@@ -9,4 +9,24 @@ export const CharacterStyles = StyleSheet.create({
     fontSize: 14,
     fontFamily: Fonts.MontserratRegular,
   },
+  title: {
+    fontSize: 14,
+    fontFamily: Fonts.MontserratSemiBold,
+  },
+  bigTitle: {
+    fontSize: 16,
+    fontFamily: Fonts.MontserratSemiBold,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontFamily: Fonts.MontserratMedium,
+  },
+  smallText: {
+    fontSize: 10,
+    fontFamily: Fonts.MontserratRegular,
+  },
+  smallItalicText: {
+    fontSize: 10,
+    fontFamily: Fonts.MontserratItalic,
+  },
 });

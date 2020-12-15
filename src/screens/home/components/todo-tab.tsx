@@ -1,34 +1,46 @@
 import React, {ReactElement, useCallback, useState} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {TodoList} from 'containers/todo-container';
 import {PlusIcon} from 'components/icons';
 import {Colors} from 'assets/color';
-import {CreateTodoModal} from 'containers/create-todo';
+import {CreateTodoModal} from 'components/create-todo-modal';
+import {TodoList} from 'components/todo-list';
+import {useDispatch, useSelector} from 'react-redux';
+import {getListTodo} from 'selectors/todo';
+import {addTodo} from 'actions/todo';
 
 interface Props {}
 export function TodoTab(props: Props): ReactElement {
   const [visibleCreateModal, setCreateVisibleCreateModal] = useState(false);
+  const todoList = useSelector(getListTodo);
+  const dispatch = useDispatch();
   const onPressCreate = useCallback((): void => {
     setCreateVisibleCreateModal(true);
   }, []);
   const onCloseCreateModal = useCallback((): void => {
     setCreateVisibleCreateModal(false);
   }, []);
+  const onCreateTodo = useCallback((title: string): void => {
+    dispatch(addTodo(title));
+    setCreateVisibleCreateModal(false);
+  }, []);
   return (
-    <View style={styles.container}>
-      <TodoList />
-      <View style={styles.floatingButtonContainer}>
-        <TouchableOpacity
-          style={styles.circleContainer}
-          onPress={onPressCreate}>
-          <PlusIcon color={Colors.white} />
-        </TouchableOpacity>
+    <React.Fragment>
+      <View style={styles.container}>
+        <TodoList data={todoList} />
+        <View style={styles.floatingButtonContainer}>
+          <TouchableOpacity
+            style={styles.circleContainer}
+            onPress={onPressCreate}>
+            <PlusIcon color={Colors.white} />
+          </TouchableOpacity>
+        </View>
       </View>
       <CreateTodoModal
         visible={visibleCreateModal}
         onClose={onCloseCreateModal}
+        onCreate={onCreateTodo}
       />
-    </View>
+    </React.Fragment>
   );
 }
 
