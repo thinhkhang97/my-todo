@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-native-fontawesome": "^0.2.6",
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "^3.0.8",
     "@types/react-native-modal": "^4.1.1",
     "moment": "^2.29.1",
@@ -25,7 +26,8 @@
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.2",
     "react-redux": "^7.2.2",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
