@@ -7,6 +7,7 @@ import {TodoList} from 'components/todo-list';
 import {useDispatch, useSelector} from 'react-redux';
 import {getListTodo} from 'selectors/todo';
 import {addTodo} from 'actions/todo';
+import {TodoPriority} from 'types/states';
 
 interface Props {}
 export function TodoTab(props: Props): ReactElement {
@@ -19,10 +20,21 @@ export function TodoTab(props: Props): ReactElement {
   const onCloseCreateModal = useCallback((): void => {
     setCreateVisibleCreateModal(false);
   }, []);
-  const onCreateTodo = useCallback((title: string): void => {
-    dispatch(addTodo(title));
-    setCreateVisibleCreateModal(false);
-  }, []);
+  const onCreateTodo = useCallback(
+    ({
+      title,
+      priority,
+      dueTo,
+    }: {
+      title: string;
+      priority: TodoPriority;
+      dueTo: Date;
+    }): void => {
+      dispatch(addTodo(title, priority, dueTo));
+      setCreateVisibleCreateModal(false);
+    },
+    [],
+  );
   return (
     <React.Fragment>
       <View style={styles.container}>

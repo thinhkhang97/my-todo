@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {TodoPriority} from 'types/states';
-import {HEIGHT, WIDTH} from 'utils/system';
+import {WIDTH} from 'utils/system';
 import {BarButton} from './bar-button';
 import {TimesIcon} from './icons';
 import {PrioritySelection} from './priority-selection';
@@ -24,7 +24,11 @@ import {getDateTimeString} from 'utils/time';
 export interface CreateTodoModalProps {
   visible: boolean;
   onClose: () => void;
-  onCreate?: (title: string) => void;
+  onCreate?: (data: {
+    title: string;
+    priority: TodoPriority;
+    dueTo: Date;
+  }) => void;
 }
 
 export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
@@ -38,20 +42,19 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
     setDueTo(date);
   }, []);
   const handleCancel = useCallback(() => setShowDatePicker(false), []);
-
   return (
     <Modal isVisible={visible} style={styles.container}>
       <SafeAreaView style={styles.contentContainer}>
-        <ScrollView>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
-              <TimesIcon color={Colors.blue1} size={24} />
-            </TouchableOpacity>
-            <Text style={[CharacterStyles.screenTitle, styles.modalTitle]}>
-              Todo
-            </Text>
-            <View style={{width: 24}} />
-          </View>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
+            <TimesIcon color={Colors.blue1} size={24} />
+          </TouchableOpacity>
+          <Text style={[CharacterStyles.screenTitle, styles.modalTitle]}>
+            Todo
+          </Text>
+          <View style={{width: 24}} />
+        </View>
+        <ScrollView keyboardShouldPersistTaps="always">
           <View style={styles.sectionContainer}>
             <Text style={[CharacterStyles.sectionTitle, styles.sectionTitle]}>
               Things to do
@@ -90,13 +93,15 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
               </View>
             </TouchableWithoutFeedback>
           </View>
+          <View style={styles.footerContainer}>
+            <BarButton
+              title="Create todo"
+              onPress={(): void =>
+                onCreate && onCreate({title: task, priority, dueTo})
+              }
+            />
+          </View>
         </ScrollView>
-        <View style={styles.footerContainer}>
-          <BarButton
-            title="Create todo"
-            onPress={(): void => onCreate && onCreate(task)}
-          />
-        </View>
         <DateTimePickerModal
           isVisible={showDatePicker}
           mode="datetime"
@@ -139,6 +144,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     paddingHorizontal: 16,
     minHeight: 48,
+    marginTop: 32,
   },
   modalTitle: {
     color: Colors.blue1,

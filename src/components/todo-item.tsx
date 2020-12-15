@@ -4,6 +4,7 @@ import React, {ReactElement} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {TodoItem as ITodoItem} from 'types/states';
 import {HIT_SLOP} from 'utils/system';
+import {getDateTimeString} from 'utils/time';
 import {EllipsisVIcon} from './icons';
 import {PriorityBadge} from './priority-badge';
 
@@ -31,7 +32,7 @@ export const TodoItem = (props: Props): ReactElement => {
           style={[
             CharacterStyles.smallItalicText,
             styles.dueTo,
-          ]}>{`Due to: 3:14 10/12/2020`}</Text>
+          ]}>{`Due to: ${getDateTimeString(data.dueTo)}`}</Text>
       </View>
     </View>
   );
