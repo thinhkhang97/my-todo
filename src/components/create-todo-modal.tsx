@@ -95,6 +95,7 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
           </View>
           <View style={styles.footerContainer}>
             <BarButton
+              disabled={task.trim() === ''}
               title="Create todo"
               onPress={(): void =>
                 onCreate && onCreate({title: task, priority, dueTo})

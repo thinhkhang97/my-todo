@@ -12,8 +12,20 @@ interface Props extends TouchableProps {
 export const BarButton = (props: Props): ReactElement => {
   const {title} = props;
   return (
-    <TouchableOpacity style={styles.container} {...props}>
-      <Text style={[CharacterStyles.text, styles.title]}>{title}</Text>
+    <TouchableOpacity
+      style={[
+        styles.container,
+        props.disabled && {backgroundColor: Colors.gray1},
+      ]}
+      {...props}>
+      <Text
+        style={[
+          CharacterStyles.text,
+          styles.title,
+          props.disabled && {color: Colors.gray2},
+        ]}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };
