@@ -4,7 +4,7 @@ import {Colors} from 'assets/color';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDoneList} from 'selectors/todo';
 import {DoneList} from 'components/done-list';
-import {deleteTodo} from 'actions/todo';
+import {deleteTodo, restoreTodo} from 'actions/todo';
 
 interface Props {}
 export function DoneTab(props: Props): ReactElement {
@@ -13,10 +13,13 @@ export function DoneTab(props: Props): ReactElement {
   const onDelete = useCallback((id: number) => {
     dispatch(deleteTodo(id));
   }, []);
+  const onRestore = useCallback((id: number) => {
+    dispatch(restoreTodo(id));
+  }, []);
   return (
     <React.Fragment>
       <View style={styles.container}>
-        <DoneList data={doneList} onDelete={onDelete} />
+        <DoneList data={doneList} onDelete={onDelete} onRestore={onRestore} />
       </View>
     </React.Fragment>
   );

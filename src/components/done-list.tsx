@@ -9,13 +9,14 @@ import {TodoItem} from './todo-item';
 interface Props {
   data: ITodoItem[];
   onDelete?: (id: number) => void;
+  onRestore?: (id: number) => void;
 }
 
 export const DoneList = (props: Props): ReactElement => {
-  const {data, onDelete} = props;
+  const {data, onDelete, onRestore} = props;
   const renderItem = useCallback(
     ({item}: {item: ITodoItem}): ReactElement => (
-      <TodoItem data={item} onDelete={onDelete} />
+      <TodoItem data={item} onDelete={onDelete} onRestore={onRestore} />
     ),
     [],
   );

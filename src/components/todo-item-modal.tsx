@@ -7,7 +7,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {WIDTH} from 'utils/system';
@@ -18,10 +17,11 @@ interface Props {
   onClose: () => void;
   done?: boolean;
   onDelete?: () => void;
+  onRestore?: () => void;
 }
 
 export const TodoItemModal = (props: Props): ReactElement => {
-  const {visible, onClose, done, onDelete} = props;
+  const {visible, onClose, done, onDelete, onRestore} = props;
   return (
     <Modal
       isVisible={visible}
@@ -41,7 +41,7 @@ export const TodoItemModal = (props: Props): ReactElement => {
             </View>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onRestore}>
             <View style={[styles.itemContainer, {paddingTop: 24}]}>
               <PenIcon />
               <View style={styles.itemContentContainer}>

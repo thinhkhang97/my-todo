@@ -4,9 +4,10 @@ import {BaseAction} from './types';
 export const ADD_TODO = 'ADD_TODO';
 export const DONE_TODO = 'DONE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
+export const RESTORE_TODO = 'RESTORE_TODO';
 
 interface BaseTodoAction extends BaseAction {
-  type: 'ADD_TODO' | 'DONE_TODO' | 'DELETE_TODO';
+  type: 'ADD_TODO' | 'DONE_TODO' | 'DELETE_TODO' | 'RESTORE_TODO';
 }
 
 export interface AddTodo extends BaseTodoAction {
@@ -62,4 +63,23 @@ export function deleteTodo(id: number): DeleteTodoItem {
   };
 }
 
-export type TodoAction = AddTodo | DoneTodoItem | DeleteTodoItem;
+export interface RestoreTodoItem extends BaseTodoAction {
+  payload: {
+    id: number;
+  };
+}
+
+export function restoreTodo(id: number): RestoreTodoItem {
+  return {
+    type: RESTORE_TODO,
+    payload: {
+      id,
+    },
+  };
+}
+
+export type TodoAction =
+  | AddTodo
+  | DoneTodoItem
+  | DeleteTodoItem
+  | RestoreTodoItem;

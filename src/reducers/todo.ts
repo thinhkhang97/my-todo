@@ -1,4 +1,10 @@
-import {TodoAction, AddTodo, DoneTodoItem, DeleteTodoItem} from 'actions/todo';
+import {
+  TodoAction,
+  AddTodo,
+  DoneTodoItem,
+  DeleteTodoItem,
+  RestoreTodoItem,
+} from 'actions/todo';
 import {TodoItem, TodoPriority} from 'types/states';
 
 const defaultState: TodoItem[] = [];
@@ -42,10 +48,19 @@ export function TodoReducer(
       return [...state];
     case 'DELETE_TODO':
       const deleteAction = action as DeleteTodoItem;
-      console.log('delete item', deleteAction.payload.id);
       return state.filter(
         (todo: TodoItem): boolean => todo.id !== deleteAction.payload.id,
       );
+    case 'RESTORE_TODO':
+      const restoreAction = action as RestoreTodoItem;
+      const todoIndex = state.findIndex(
+        (todo: TodoItem): boolean => todo.id === restoreAction.payload.id,
+      );
+      if (todoIndex < 0) {
+        return state;
+      }
+      state[todoIndex].done = false;
+      return [...state];
     default:
       return state;
   }
