@@ -56,6 +56,8 @@ export function TodoTab(props: Props): ReactElement {
       dueTo: Date;
     }) => {
       dispatch(updateTodo(data.id, data.title, data.priority, data.dueTo));
+      setUpdateItem(undefined);
+      setCreateVisibleCreateModal(false);
     },
     [],
   );
