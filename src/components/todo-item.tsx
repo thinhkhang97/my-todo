@@ -9,6 +9,7 @@ import {getDateTimeString} from 'utils/time';
 import {EllipsisVIcon} from './icons';
 import {PriorityBadge} from './priority-badge';
 import {TodoItemModal} from './todo-item-modal';
+import {IndicatorTime} from './indicator-time';
 
 interface Props {
   data: ITodoItem;
@@ -44,11 +45,7 @@ export const TodoItem = (props: Props): ReactElement => {
             </TouchableOpacity>
           </View>
           <View style={styles.footContainer}>
-            <Text
-              style={[
-                CharacterStyles.smallItalicText,
-                styles.dueTo,
-              ]}>{`Due to: ${getDateTimeString(data.dueTo)}`}</Text>
+            <IndicatorTime deadline={data.dueTo} />
           </View>
         </View>
       </TouchableOpacity>

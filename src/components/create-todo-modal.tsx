@@ -133,7 +133,7 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
         <DateTimePickerModal
           isVisible={showDatePicker}
           mode="datetime"
-          minimumDate={new Date()}
+          // minimumDate={new Date()}
           onConfirm={handleConfirm}
           onCancel={handleCancel}
         />
