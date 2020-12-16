@@ -1,11 +1,10 @@
-import React, {ReactElement, useState} from 'react';
+import React, {ReactElement, useCallback, useMemo, useState} from 'react';
 
 import {CharacterStyles} from 'assets/character-styles';
 import {Colors} from 'assets/color';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
 import {TodoItem as ITodoItem} from 'types/states';
-import {HIT_SLOP} from 'utils/system';
-import {getDateTimeString} from 'utils/time';
+import {HIT_SLOP, WIDTH} from 'utils/system';
 import {EllipsisVIcon} from './icons';
 import {PriorityBadge} from './priority-badge';
 import {TodoItemModal} from './todo-item-modal';
@@ -22,10 +21,28 @@ interface Props {
 export const TodoItem = (props: Props): ReactElement => {
   const {data, onDone, onDelete, onRestore, onEdit} = props;
   const [showModal, setShowModal] = useState(false);
+  const translateX = new Animated.Value(0);
+  const onDoneItem = () => {
+    Animated.timing(translateX, {
+      toValue: WIDTH,
+      duration: 300,
+      useNativeDriver: false,
+    }).start((): void => onDone && onDone(data.id));
+  };
+  const onRestoreItem = () => {
+    Animated.timing(translateX, {
+      toValue: -WIDTH,
+      duration: 300,
+      useNativeDriver: false,
+    }).start((): void => {
+      setShowModal(false);
+      onRestore && onRestore(data.id);
+    });
+  };
   return (
     <React.Fragment>
-      <TouchableOpacity onPress={(): void => onDone && onDone(data.id)}>
-        <View style={styles.container}>
+      <TouchableOpacity disabled={data.done} onPress={onDoneItem}>
+        <Animated.View style={[styles.container, {transform: [{translateX}]}]}>
           <View style={styles.topContainer}>
             <View style={styles.rightTopContainer}>
               <Text
@@ -47,7 +64,7 @@ export const TodoItem = (props: Props): ReactElement => {
           <View style={styles.footContainer}>
             <IndicatorTime deadline={data.dueTo} />
           </View>
-        </View>
+        </Animated.View>
       </TouchableOpacity>
       <TodoItemModal
         visible={showModal}
@@ -57,10 +74,7 @@ export const TodoItem = (props: Props): ReactElement => {
           onDelete && onDelete(data.id);
         }}
         done={data.done}
-        onRestore={(): void => {
-          setShowModal(false);
-          onRestore && onRestore(data.id);
-        }}
+        onRestore={onRestoreItem}
         onEdit={(): void => {
           setShowModal(false);
           onEdit && onEdit(data);
