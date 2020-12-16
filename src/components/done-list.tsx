@@ -22,7 +22,7 @@ export const DoneList = (props: Props): ReactElement => {
   );
   const emptyComponent = (
     <View style={styles.emptyContainer}>
-      <NoSearchResult />
+      <NoSearchResult size={195.056} />
       <Text style={[CharacterStyles.text, {marginTop: 16}, styles.emptyText]}>
         You have nothing to do
       </Text>

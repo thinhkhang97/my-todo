@@ -56,8 +56,8 @@ export const DocumentEmpty = (props: Props): React.ReactElement => {
 };
 
 export const NoSearchResult = (props: Props): React.ReactElement => {
-  const width = props.size || 86.68;
-  const height = (width * 167) / 86.68;
+  const width = props.size || 167;
+  const height = (width * 86.68) / 167;
   return (
     <Svg width={width} height={height} viewBox="0 0 167 86.68">
       <Path
