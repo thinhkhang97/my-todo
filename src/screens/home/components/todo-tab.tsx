@@ -6,7 +6,7 @@ import {CreateTodoModal} from 'components/create-todo-modal';
 import {TodoList} from 'components/todo-list';
 import {useDispatch, useSelector} from 'react-redux';
 import {getListTodo} from 'selectors/todo';
-import {addTodo, doneTodo} from 'actions/todo';
+import {addTodo, deleteTodo, doneTodo} from 'actions/todo';
 import {TodoPriority} from 'types/states';
 
 interface Props {}
@@ -38,10 +38,15 @@ export function TodoTab(props: Props): ReactElement {
   const onDone = useCallback((id: number): void => {
     dispatch(doneTodo(id));
   }, []);
+  const onDelete = useCallback((id: number): void => {
+    console.log('on delete', id);
+
+    dispatch(deleteTodo(id));
+  }, []);
   return (
     <React.Fragment>
       <View style={styles.container}>
-        <TodoList data={todoList} onDone={onDone} />
+        <TodoList data={todoList} onDone={onDone} onDelete={onDelete} />
         <View style={styles.floatingButtonContainer}>
           <TouchableOpacity
             style={styles.circleContainer}

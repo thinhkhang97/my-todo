@@ -1,4 +1,4 @@
-import {TodoAction, AddTodo, DoneTodoItem} from 'actions/todo';
+import {TodoAction, AddTodo, DoneTodoItem, DeleteTodoItem} from 'actions/todo';
 import {TodoItem, TodoPriority} from 'types/states';
 
 const defaultState: TodoItem[] = [];
@@ -40,6 +40,12 @@ export function TodoReducer(
       }
       state[index].done = true;
       return [...state];
+    case 'DELETE_TODO':
+      const deleteAction = action as DeleteTodoItem;
+      console.log('delete item', deleteAction.payload.id);
+      return state.filter(
+        (todo: TodoItem): boolean => todo.id !== deleteAction.payload.id,
+      );
     default:
       return state;
   }

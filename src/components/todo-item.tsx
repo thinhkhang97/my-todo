@@ -13,10 +13,11 @@ import {TodoItemModal} from './todo-item-modal';
 interface Props {
   data: ITodoItem;
   onDone?: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 export const TodoItem = (props: Props): ReactElement => {
-  const {data, onDone} = props;
+  const {data, onDone, onDelete} = props;
   const [showModal, setShowModal] = useState(false);
   return (
     <React.Fragment>
@@ -52,6 +53,10 @@ export const TodoItem = (props: Props): ReactElement => {
       <TodoItemModal
         visible={showModal}
         onClose={(): void => setShowModal(false)}
+        onDelete={(): void => {
+          setShowModal(false);
+          onDelete && onDelete(data.id);
+        }}
         done={data.done}
       />
     </React.Fragment>

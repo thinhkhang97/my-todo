@@ -17,18 +17,19 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   done?: boolean;
+  onDelete?: () => void;
 }
 
 export const TodoItemModal = (props: Props): ReactElement => {
-  const {visible, onClose, done} = props;
+  const {visible, onClose, done, onDelete} = props;
   return (
     <Modal
       isVisible={visible}
       style={styles.container}
       onBackdropPress={onClose}>
       <SafeAreaView style={styles.contentContainer}>
-        <TouchableOpacity>
-          {!done ? (
+        {!done ? (
+          <TouchableOpacity>
             <View style={[styles.itemContainer, {paddingTop: 24}]}>
               <PenIcon />
               <View style={styles.itemContentContainer}>
@@ -38,7 +39,9 @@ export const TodoItemModal = (props: Props): ReactElement => {
                 </Text>
               </View>
             </View>
-          ) : (
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity>
             <View style={[styles.itemContainer, {paddingTop: 24}]}>
               <PenIcon />
               <View style={styles.itemContentContainer}>
@@ -48,7 +51,9 @@ export const TodoItemModal = (props: Props): ReactElement => {
                 </Text>
               </View>
             </View>
-          )}
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity onPress={onDelete}>
           <View style={styles.itemContainer}>
             <TrashIcon color={Colors.red2} />
             <View style={styles.itemContentContainer}>

@@ -3,9 +3,10 @@ import {BaseAction} from './types';
 
 export const ADD_TODO = 'ADD_TODO';
 export const DONE_TODO = 'DONE_TODO';
+export const DELETE_TODO = 'DELETE_TODO';
 
 interface BaseTodoAction extends BaseAction {
-  type: 'ADD_TODO' | 'DONE_TODO';
+  type: 'ADD_TODO' | 'DONE_TODO' | 'DELETE_TODO';
 }
 
 export interface AddTodo extends BaseTodoAction {
@@ -46,4 +47,19 @@ export function doneTodo(id: number): DoneTodoItem {
   };
 }
 
-export type TodoAction = AddTodo | DoneTodoItem;
+export interface DeleteTodoItem extends BaseTodoAction {
+  payload: {
+    id: number;
+  };
+}
+
+export function deleteTodo(id: number): DeleteTodoItem {
+  return {
+    type: DELETE_TODO,
+    payload: {
+      id,
+    },
+  };
+}
+
+export type TodoAction = AddTodo | DoneTodoItem | DeleteTodoItem;

@@ -8,12 +8,15 @@ import {TodoItem} from './todo-item';
 
 interface Props {
   data: ITodoItem[];
+  onDelete?: (id: number) => void;
 }
 
 export const DoneList = (props: Props): ReactElement => {
-  const {data} = props;
+  const {data, onDelete} = props;
   const renderItem = useCallback(
-    ({item}: {item: ITodoItem}): ReactElement => <TodoItem data={item} />,
+    ({item}: {item: ITodoItem}): ReactElement => (
+      <TodoItem data={item} onDelete={onDelete} />
+    ),
     [],
   );
   const emptyComponent = (
