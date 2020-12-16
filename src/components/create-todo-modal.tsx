@@ -1,6 +1,6 @@
 import {CharacterStyles} from 'assets/character-styles';
 import {Colors} from 'assets/color';
-import React, {ReactElement, useCallback, useState} from 'react';
+import React, {ReactElement, useCallback, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {TodoPriority} from 'types/states';
+import {TodoItem, TodoPriority} from 'types/states';
 import {WIDTH} from 'utils/system';
 import {BarButton} from './bar-button';
 import {TimesIcon} from './icons';
@@ -23,8 +23,15 @@ import {getDateTimeString} from 'utils/time';
 
 export interface CreateTodoModalProps {
   visible: boolean;
+  initData?: TodoItem;
   onClose: () => void;
   onCreate?: (data: {
+    title: string;
+    priority: TodoPriority;
+    dueTo: Date;
+  }) => void;
+  onUpdate?: (data: {
+    id: number;
     title: string;
     priority: TodoPriority;
     dueTo: Date;
@@ -32,16 +39,29 @@ export interface CreateTodoModalProps {
 }
 
 export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
-  const {visible, onCreate, onClose} = props;
+  const {visible, onCreate, onClose, initData, onUpdate} = props;
+  const editMode = !!initData;
   const [task, setTaskText] = useState('');
   const [priority, setPriority] = useState('medium' as TodoPriority);
   const [dueTo, setDueTo] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  useEffect(() => {
+    if (initData) {
+      setTaskText(initData.title);
+      setPriority(initData.priority);
+      setDueTo(initData.dueTo);
+    }
+  }, [initData]);
   const handleConfirm = useCallback((date: Date) => {
     setShowDatePicker(false);
     setDueTo(date);
   }, []);
   const handleCancel = useCallback(() => setShowDatePicker(false), []);
+  const resetData = useCallback(() => {
+    setTaskText('');
+    setPriority('medium');
+    setDueTo(new Date());
+  }, []);
   return (
     <Modal isVisible={visible} style={styles.container}>
       <SafeAreaView style={styles.contentContainer}>
@@ -64,6 +84,7 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
               onChangeText={setTaskText}
               autoFocus
               maxLength={120}
+              value={task}
             />
             <Text
               style={[
@@ -96,10 +117,16 @@ export const CreateTodoModal = (props: CreateTodoModalProps): ReactElement => {
           <View style={styles.footerContainer}>
             <BarButton
               disabled={task.trim() === ''}
-              title="Create todo"
-              onPress={(): void =>
-                onCreate && onCreate({title: task, priority, dueTo})
-              }
+              title={!editMode ? 'Create todo' : 'Update todo'}
+              onPress={(): void => {
+                if (initData) {
+                  onUpdate &&
+                    onUpdate({id: initData.id, title: task, priority, dueTo});
+                } else {
+                  onCreate && onCreate({title: task, priority, dueTo});
+                }
+                resetData();
+              }}
             />
           </View>
         </ScrollView>

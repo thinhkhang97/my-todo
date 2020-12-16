@@ -5,9 +5,15 @@ export const ADD_TODO = 'ADD_TODO';
 export const DONE_TODO = 'DONE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const RESTORE_TODO = 'RESTORE_TODO';
+export const UPDATE_TODO = 'UPDATE_TODO';
 
 interface BaseTodoAction extends BaseAction {
-  type: 'ADD_TODO' | 'DONE_TODO' | 'DELETE_TODO' | 'RESTORE_TODO';
+  type:
+    | 'ADD_TODO'
+    | 'DONE_TODO'
+    | 'DELETE_TODO'
+    | 'RESTORE_TODO'
+    | 'UPDATE_TODO';
 }
 
 export interface AddTodo extends BaseTodoAction {
@@ -78,8 +84,35 @@ export function restoreTodo(id: number): RestoreTodoItem {
   };
 }
 
+export interface UpdateTodoItem extends BaseTodoAction {
+  payload: {
+    id: number;
+    title: string;
+    priority: TodoPriority;
+    dueTo: Date;
+  };
+}
+
+export function updateTodo(
+  id: number,
+  title: string,
+  priority?: TodoPriority,
+  dueTo?: Date,
+): UpdateTodoItem {
+  return {
+    type: UPDATE_TODO,
+    payload: {
+      id,
+      title,
+      priority: priority || 'medium',
+      dueTo: dueTo || new Date(),
+    },
+  };
+}
+
 export type TodoAction =
   | AddTodo
   | DoneTodoItem
   | DeleteTodoItem
-  | RestoreTodoItem;
+  | RestoreTodoItem
+  | UpdateTodoItem;

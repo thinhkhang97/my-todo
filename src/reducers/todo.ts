@@ -4,6 +4,7 @@ import {
   DoneTodoItem,
   DeleteTodoItem,
   RestoreTodoItem,
+  UpdateTodoItem,
 } from 'actions/todo';
 import {TodoItem, TodoPriority} from 'types/states';
 
@@ -60,6 +61,18 @@ export function TodoReducer(
         return state;
       }
       state[todoIndex].done = false;
+      return [...state];
+    case 'UPDATE_TODO':
+      const updateAction = action as UpdateTodoItem;
+      const updateTodoIndex = state.findIndex(
+        (todo: TodoItem): boolean => todo.id === updateAction.payload.id,
+      );
+      if (updateTodoIndex < 0) {
+        return state;
+      }
+      state[updateTodoIndex].title = updateAction.payload.title;
+      state[updateTodoIndex].priority = updateAction.payload.priority;
+      state[updateTodoIndex].dueTo = updateAction.payload.dueTo;
       return [...state];
     default:
       return state;

@@ -10,10 +10,11 @@ interface Props {
   data: ITodoItem[];
   onDone?: (id: number) => void;
   onDelete?: (id: number) => void;
+  onEdit?: (data: ITodoItem) => void;
 }
 
 export const TodoList = (props: Props): ReactElement => {
-  const {data, onDone, onDelete} = props;
+  const {data, onDone, onDelete, onEdit} = props;
   const renderItem = useCallback(
     ({item}: {item: ITodoItem}): ReactElement => (
       <TodoItem
@@ -21,6 +22,7 @@ export const TodoList = (props: Props): ReactElement => {
         data={item}
         onDone={onDone}
         onDelete={onDelete}
+        onEdit={onEdit}
       />
     ),
     [data],

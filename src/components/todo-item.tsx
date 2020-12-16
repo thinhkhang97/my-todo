@@ -15,10 +15,11 @@ interface Props {
   onDone?: (id: number) => void;
   onDelete?: (id: number) => void;
   onRestore?: (id: number) => void;
+  onEdit?: (data: ITodoItem) => void;
 }
 
 export const TodoItem = (props: Props): ReactElement => {
-  const {data, onDone, onDelete, onRestore} = props;
+  const {data, onDone, onDelete, onRestore, onEdit} = props;
   const [showModal, setShowModal] = useState(false);
   return (
     <React.Fragment>
@@ -62,6 +63,10 @@ export const TodoItem = (props: Props): ReactElement => {
         onRestore={(): void => {
           setShowModal(false);
           onRestore && onRestore(data.id);
+        }}
+        onEdit={(): void => {
+          setShowModal(false);
+          onEdit && onEdit(data);
         }}
       />
     </React.Fragment>
